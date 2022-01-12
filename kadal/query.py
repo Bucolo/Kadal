@@ -33,6 +33,7 @@ query ($search: String, $type: MediaType, $exclude: MediaFormat, $isAdult: Boole
     genres
     averageScore
     siteUrl
+    isAdult
     nextAiringEpisode {
       timeUntilAiring
       episode
@@ -75,6 +76,7 @@ query ($id: Int, $type: MediaType) {
     genres
     averageScore
     siteUrl
+    isAdult
     nextAiringEpisode {
       timeUntilAiring
       episode
@@ -128,6 +130,7 @@ query (
       genres
       averageScore
       siteUrl
+      isAdult
       popularity
     }
   }
