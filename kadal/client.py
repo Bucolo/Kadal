@@ -84,7 +84,7 @@ class Client:
         data = await self._request(USER_BY_ID, id=id)
         return User(data)
     
-    async def custom_paged_search(self, **variables): -> List[Media]
+    async def custom_paged_search(self, **variables) -> List[Media]:  
         return [Media(media_data, page=True) for media_data in await self._paged_request(**variables)]
 
     async def search_anime(self, query, *, popularity=False, allow_adult=False) -> Media:
