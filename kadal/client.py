@@ -53,11 +53,11 @@ class Client:
             self.handle_error(data['errors'][0])
         return data
 
-    async def _paged_request(self, **variables) -> List[dict]:
+    async def _paged_request(self, page=1, perPage=50, **variables) -> List[dict]:
         """Depending on the value passed for 'sort' variable you can sort by whatever you want.
         search Media Sort here https://anilist.github.io/ApiV2-GraphQL-Docs/
         ex: await yourkadalclient.paged_request(**{"type":"ANIME","sort":"SCORE_DESC"})"""
-        data = await self._request(MEDIA_PAGED, page=1, perPage=50, **variables)
+        data = await self._request(MEDIA_PAGED, page=page, perPage=perPage, **variables)
         lst = data['data']['Page']['media']
         if not lst:
             raise MediaNotFound("Not Found.", 404)
@@ -84,8 +84,8 @@ class Client:
         data = await self._request(USER_BY_ID, id=id)
         return User(data)
     
-    async def custom_paged_search(self, **variables) -> List[Media]:  
-        return [Media(media_data, page=True) for media_data in await self._paged_request(**variables)]
+    async def custom_paged_search(self, page=1, perPage=50, **variables) -> List[Media]:  
+        return [Media(media_data, page=True) for media_data in await self._paged_request(page=page, perPage=perPage, **variables)]
 
     async def search_anime(self, query, *, popularity=False, allow_adult=False) -> Media:
         variables = {
