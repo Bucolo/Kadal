@@ -56,7 +56,7 @@ class Client:
     async def paged_request(self, **variables) -> List[dict]:
         """Depending on the value passed for 'sort' variable you can sort by whatever you want.
         search Media Sort here https://anilist.github.io/ApiV2-GraphQL-Docs/
-        ex: await yourkadalclient.most_popular(**{"type":"ANIME","sort":"SCORE_DESC"})"""
+        ex: await yourkadalclient.paged_request(**{"type":"ANIME","sort":"SCORE_DESC"})"""
         data = await self._request(MEDIA_PAGED, page=1, perPage=50, **variables)
         lst = data['data']['Page']['media']
         if not lst:
