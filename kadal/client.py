@@ -53,7 +53,10 @@ class Client:
             self.handle_error(data['errors'][0])
         return data
 
-    async def most_popular(self, **variables) -> List[dict]:
+    async def paged_request(self, **variables) -> List[dict]:
+        """Depending on the value passed for 'sort' variable you can sort by whatever you want.
+        search Media Sort here https://anilist.github.io/ApiV2-GraphQL-Docs/
+        ex: await yourkadalclient.most_popular(**{"type":"ANIME","sort":"SCORE_DESC"})"""
         data = await self._request(MEDIA_PAGED, page=1, perPage=50, **variables)
         lst = data['data']['Page']['media']
         if not lst:
@@ -90,7 +93,7 @@ class Client:
             variables['isAdult'] = False
 
         if popularity:
-            data = (await self.most_popular(**variables))[0]
+            data = (await self.paged_request(**variables))[0]
         else:
             data = await self._request(MEDIA_SEARCH, **variables)
         return Media(data, page=popularity)
@@ -106,7 +109,7 @@ class Client:
             variables['isAdult'] = False
 
         if popularity:
-            data = (await self.most_popular(**variables))[0]
+            data = (await self.paged_request(**variables))[0]
         else:
             data = await self._request(MEDIA_SEARCH, **variables)
         return Media(data, page=popularity)
