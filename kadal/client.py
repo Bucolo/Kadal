@@ -53,7 +53,7 @@ class Client:
             self.handle_error(data['errors'][0])
         return data
 
-    async def most_popular(self, query, **variables) -> List[dict]:
+    async def most_popular(self, **variables) -> List[dict]:
         data = await self._request(MEDIA_PAGED, page=1, perPage=50, **variables)
         lst = data['data']['Page']['media']
         if not lst:
@@ -90,7 +90,7 @@ class Client:
             variables['isAdult'] = False
 
         if popularity:
-            data = (await self.most_popular(query, **variables))[0]
+            data = (await self.most_popular(**variables))[0]
         else:
             data = await self._request(MEDIA_SEARCH, **variables)
         return Media(data, page=popularity)
@@ -106,7 +106,7 @@ class Client:
             variables['isAdult'] = False
 
         if popularity:
-            data = (await self.most_popular(query, **variables))[0]
+            data = (await self.most_popular(**variables))[0]
         else:
             data = await self._request(MEDIA_SEARCH, **variables)
         return Media(data, page=popularity)
